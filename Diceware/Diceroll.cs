@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Linq;
 
-namespace Diceware_cs
+namespace Diceware
 {
     ///    public static class ExtensionTest
     ///{

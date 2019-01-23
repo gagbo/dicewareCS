@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Diceware_cs
+namespace Diceware
 {
     class Program
     {
@@ -8,7 +8,7 @@ namespace Diceware_cs
         {
             Console.WriteLine("Hello World!");
             PrintEntropyHelp();
-            PasswordFr5J defValue = new PasswordFr5J(5);
+            Passwords.PasswordFr5J defValue = new Passwords.PasswordFr5J(5);
             defValue.MakeRolls();
             Console.WriteLine(defValue.RawRolls.ToString());
         }

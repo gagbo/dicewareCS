@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Diceware;
 
-namespace Diceware_cs
+namespace Diceware.Passwords
 {
-    public interface IPassword
-    {
-        Diceroll RawRolls { get; }
-        void MakeRolls();
-    }
-
     // TODO : Ajouter la possibilité de retirer les espaces (remplacés par des '0' ou du sel)
 
     // TODO : Que faire si le sel tombe sur un caractère "hors mot" ? Reroll ?
