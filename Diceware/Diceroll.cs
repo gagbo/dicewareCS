@@ -74,6 +74,10 @@ namespace Diceware
 
         public void MakeRolls()
         {
+            foreach(var word in words)
+            {
+                word.Clear();
+            }
             foreach (var word in words)
             {
                 word.MakeRolls();
@@ -81,6 +85,7 @@ namespace Diceware
             if (_hasSalt)
             {
                 do {
+                    _salt.Clear();
                     _salt.MakeRolls();
                 } while (_salt.Rolls[0] > _wordCount);
             }
@@ -143,6 +148,11 @@ namespace Diceware
             public override string ToString()
             {
                 return "Rolls : " + String.Join(" ", _rolls);
+            }
+
+            public void Clear()
+            {
+                _rolls.Clear();
             }
 
         }

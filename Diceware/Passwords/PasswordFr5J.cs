@@ -67,7 +67,7 @@ namespace Diceware.Passwords
                 {
                     string line;
                     while((line = sr.ReadLine()) != null) {
-                    string[] key_value_pair = line.Split(" ");
+                    string[] key_value_pair = line.Split(' ');
                     int key = Int32.Parse(key_value_pair[0]);
                     _wordsList[key] = key_value_pair[1];
                     }
