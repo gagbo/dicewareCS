@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace Diceware
 {
     class Program
     {
+        [STAThreadAttribute]
         static void Main(string[] args)
         {
             PrintEntropyHelp();
@@ -16,6 +18,8 @@ namespace Diceware
             Console.WriteLine(defValue.Passphrase);
             Console.WriteLine(defValue.Passphrase);
             Console.WriteLine(defValue.Passphrase);
+            Console.WriteLine("Another random passphrase has been added to the clipboard");
+            Clipboard.SetText(defValue.Passphrase);
             Console.ReadLine();
         }
 

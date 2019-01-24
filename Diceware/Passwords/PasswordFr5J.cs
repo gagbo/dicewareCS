@@ -5,12 +5,6 @@ using Diceware;
 
 namespace Diceware.Passwords
 {
-    // TODO : Ajouter la possibilité de retirer les espaces (remplacés par des '0' ou du sel)
-
-    // TODO : Que faire si le sel tombe sur un caractère "hors mot" ? Reroll ?
-
-    // TODO : A refactorer vers une interface + cette classe qui l'implémente pour étendre à d'autres dicts
-
     /// Traduit des jets de dés en mots de passe à partir d'un dictionnaire et d'une table de sel
     public class PasswordFr5J : IPassword
     {
@@ -27,7 +21,20 @@ namespace Diceware.Passwords
         }
         public string Passphrase {
             get {
-                MakeRolls();
+                List<string> individualWords = GetWords();
+                return string.Join(" ", individualWords);
+            }
+        }
+        public string PassphraseWithoutSpaces {
+            get {
+                List<string> individualWords = GetWords();
+                return string.Join("0", individualWords);
+            }
+        }
+
+        private List<string> GetWords()
+        {
+            MakeRolls();
                 List<string> individualWords = new List<string>();
                 int wordIndex = 1;
                 foreach(var roll in RawRolls.WordRolls) {
@@ -41,8 +48,7 @@ namespace Diceware.Passwords
                     individualWords.Add(word);
                     wordIndex += 1;
                 }
-                return string.Join(" ", individualWords);
-            }
+            return individualWords;
         }
         private static Dictionary<int, string> _wordsList = new Dictionary<int, string>();
         private static string _dictFilename = "data/diceware-fr-5-jets.txt";

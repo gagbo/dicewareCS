@@ -8,5 +8,7 @@ namespace Diceware.Passwords
     {
         Diceroll RawRolls { get; }
         void MakeRolls();
+        string Passphrase { get; }
+        string PassphraseWithoutSpaces { get; }
     }
 }
