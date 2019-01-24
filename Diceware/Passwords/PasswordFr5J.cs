@@ -18,6 +18,13 @@ namespace Diceware.Passwords
         {
             get;
         }
+        public Dictionary<int, string> WordsList
+        {
+            get
+            {
+                return _wordsList;
+            }
+        }
         private static Dictionary<int, string> _wordsList = new Dictionary<int, string>();
         private static string _dictFilename = "data/diceware-fr-5-jets.txt";
         private static char[,] _saltSymbolTable = new char[6, 6] {{'~', '!', '#', '$', '%', '^'},
@@ -35,10 +42,13 @@ namespace Diceware.Passwords
             {
                 using (StreamReader sr = new StreamReader(_dictFilename))
                 {
-                    String line = sr.ReadToEnd();
+                    string line;
+                    while((line = sr.ReadLine()) != null)
+{
                     string[] key_value_pair = line.Split(" ");
                     int key = Int32.Parse(key_value_pair[0]);
                     _wordsList[key] = key_value_pair[1];
+                    }
                 }
             }
             catch (Exception e)
