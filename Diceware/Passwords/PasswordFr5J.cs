@@ -25,6 +25,25 @@ namespace Diceware.Passwords
                 return _wordsList;
             }
         }
+        public string Passphrase {
+            get {
+                MakeRolls();
+                List<string> individualWords = new List<string>();
+                int wordIndex = 1;
+                foreach(var roll in RawRolls.WordRolls) {
+                    string tempWord = FetchWord(roll);
+                    string word;
+                    if (RawRolls.Salt[0] == wordIndex) {
+                        word = SaltWord(tempWord, RawRolls.Salt[1], GetSaltChar(RawRolls.Salt[2], RawRolls.Salt[3]));
+                    } else {
+                        word = tempWord;
+                    }
+                    individualWords.Add(word);
+                    wordIndex += 1;
+                }
+                return string.Join(" ", individualWords);
+            }
+        }
         private static Dictionary<int, string> _wordsList = new Dictionary<int, string>();
         private static string _dictFilename = "data/diceware-fr-5-jets.txt";
         private static char[,] _saltSymbolTable = new char[6, 6] {{'~', '!', '#', '$', '%', '^'},
@@ -38,13 +57,16 @@ namespace Diceware.Passwords
         {
             // Peu lisible à cause des arguments tous entiers. kwargs comme Python ?
             RawRolls = new Diceroll(how_many_words, 5, has_salt, 6);
+            if (_wordsList.Count > 0) {
+                Console.WriteLine($"The dictionnary {_dictFilename} has already been read for this Password generator class");
+                return;
+            }
             try
             {
                 using (StreamReader sr = new StreamReader(_dictFilename))
                 {
                     string line;
-                    while((line = sr.ReadLine()) != null)
-{
+                    while((line = sr.ReadLine()) != null) {
                     string[] key_value_pair = line.Split(" ");
                     int key = Int32.Parse(key_value_pair[0]);
                     _wordsList[key] = key_value_pair[1];
@@ -62,6 +84,32 @@ namespace Diceware.Passwords
         public void MakeRolls()
         {
             RawRolls.MakeRolls();
+        }
+
+        private string FetchWord(int[] rolls) {
+            int key = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                key += rolls[i] * (int)Math.Pow(10, 4-i);
+            }
+            return _wordsList[key];
+        }
+
+        private char GetSaltChar(int roll1, int roll2) {
+            // The array is 0-indexed
+            return _saltSymbolTable[roll1-1,roll2-1];
+        }
+
+        private string SaltWord(string word, int position, char salt) {
+            string res;
+            if (RawRolls.Salt.Length != 0) {
+                // XXX : reduces entropy, because we don't choose uniformly within the word
+                int charIndex = Math.Min(position, word.Length);
+                res = word.Substring(0, charIndex - 1) + salt + ( charIndex == word.Length ? "" :  word.Substring(charIndex+1));
+            } else {
+                res = word;
+            }
+            return res;
         }
     }
 }

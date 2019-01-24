@@ -6,11 +6,23 @@ namespace Diceware
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             PrintEntropyHelp();
             Passwords.PasswordFr5J defValue = new Passwords.PasswordFr5J(5);
             defValue.MakeRolls();
             Console.WriteLine(defValue.RawRolls.ToString());
+            Console.WriteLine(defValue.Passphrase);
+            Passwords.PasswordFr5J defValue2 = new Passwords.PasswordFr5J(5);
+            defValue2.MakeRolls();
+            Console.WriteLine(defValue2.RawRolls.ToString());
+            Console.WriteLine(defValue2.Passphrase);
+            Passwords.PasswordFr5J defValue3 = new Passwords.PasswordFr5J(5);
+            defValue3.MakeRolls();
+            Console.WriteLine(defValue3.RawRolls.ToString());
+            Console.WriteLine(defValue3.Passphrase);
+            Passwords.PasswordFr5J defValue4 = new Passwords.PasswordFr5J(5);
+            defValue4.MakeRolls();
+            Console.WriteLine(defValue4.RawRolls.ToString());
+            Console.WriteLine(defValue4.Passphrase);
         }
 
         static void PrintEntropyHelp()

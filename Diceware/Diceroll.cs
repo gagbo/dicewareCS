@@ -35,7 +35,11 @@ namespace Diceware
             _facesPerDie = facesPerDie;
             _hasSalt = salted;
 
-            _salt = new Diceword(3, 6);
+            // We'll use : 
+            // - _salt.Rolls[0] to choose the word to salt
+            // - _salt.Rolls[1] to choose the letter to replace
+            // - _salt.Rolls[2] , and _salt.Rolls[3] to choose the salt char
+            _salt = new Diceword(4, 6);
 
             words = new List<Diceword>();
             for (int i = 0; i < _wordCount; i++)
@@ -76,7 +80,9 @@ namespace Diceware
             }
             if (_hasSalt)
             {
-                _salt.MakeRolls();
+                do {
+                    _salt.MakeRolls();
+                } while (_salt.Rolls[0] > _wordCount);
             }
         }
 
@@ -104,7 +110,6 @@ namespace Diceware
             private int _diceCount;
             private List<int> _rolls;
             private int _diceFaces;
-            private static RandomNumberGenerator _rngCsp = RandomNumberGenerator.Create();
 
             public int[] Rolls
             {
@@ -125,11 +130,13 @@ namespace Diceware
             {
                 int bytes_in_64 = 8;
                 byte[] randomNumber = new byte[bytes_in_64 * _diceCount];
-                _rngCsp.GetBytes(randomNumber);
-                for (int i = 0; i < _diceCount; i++)
-                {
-                    double randomDouble = (double)BitConverter.ToUInt64(randomNumber, i * bytes_in_64) / UInt64.MaxValue;
-                    _rolls.Add(1 + (int)Math.Floor(randomDouble * _diceFaces));
+                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider()) {
+                    rngCsp.GetBytes(randomNumber);
+                    for (int i = 0; i < _diceCount; i++)
+                    {
+                        double randomDouble = (double)BitConverter.ToUInt64(randomNumber, i * bytes_in_64) / UInt64.MaxValue;
+                        _rolls.Add(1 + (int)Math.Floor(randomDouble * _diceFaces));
+                    }
                 }
             }
 
