@@ -1,5 +1,7 @@
 # Diceware in C#
 
+[![Build Status](https://travis-ci.com/gagbo/dicewareCS.svg?branch=master)](https://travis-ci.com/gagbo/dicewareCS)
+
 ## Disclaimer
 This is a toy project, just to make myself at ease with C#.
 
