@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Diceware;
 
 namespace Diceware.Passwords
@@ -24,8 +25,8 @@ namespace Diceware.Passwords
             get {
                 List<string> individualWords = GetNewWords();
                 return string.Join(" ", individualWords);
-                    }
-                }
+            }
+        }
 
         public string PassphraseWithoutSpaces {
             get {
@@ -51,9 +52,10 @@ namespace Diceware.Passwords
                 Console.WriteLine($"The dictionnary {_dictFilename} has already been read for this Password generator class");
                 return;
             }
+            string pathToDictFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/" + _dictFilename;
             try
             {
-                using (StreamReader sr = new StreamReader(_dictFilename))
+                using (StreamReader sr = new StreamReader(pathToDictFile))
                 {
                     string line;
                     while((line = sr.ReadLine()) != null) {
