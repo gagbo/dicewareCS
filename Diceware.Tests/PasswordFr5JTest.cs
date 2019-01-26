@@ -24,7 +24,21 @@ namespace Diceware.Tests
         public void HasAllWords()
         {
             PasswordFr5J testee = new PasswordFr5J(5);
-            Assert.IsTrue(testee.WordsList.Count == Math.Pow(6, 5));
+            Assert.AreEqual(testee.WordsList.Count, Math.Pow(6, 5));
+        }
+
+        [Test]
+        public void GeneratesConsecutiveDifferentPhrases()
+        {
+            PasswordFr5J testee = new PasswordFr5J(5);
+            Assert.AreNotEqual(testee.Passphrase, testee.Passphrase);
+        }
+
+        [Test]
+        public void GeneratesNoSpacePhrases()
+        {
+            PasswordFr5J testee = new PasswordFr5J(5);
+            Assert.IsFalse(testee.PassphraseWithoutSpaces.Contains(' '));
         }
     }
 }
