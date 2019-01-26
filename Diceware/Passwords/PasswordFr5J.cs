@@ -5,12 +5,6 @@ using Diceware;
 
 namespace Diceware.Passwords
 {
-    // TODO : Ajouter la possibilité de retirer les espaces (remplacés par des '0' ou du sel)
-
-    // TODO : Que faire si le sel tombe sur un caractère "hors mot" ? Reroll ?
-
-    // TODO : A refactorer vers une interface + cette classe qui l'implémente pour étendre à d'autres dicts
-
     /// Traduit des jets de dés en mots de passe à partir d'un dictionnaire et d'une table de sel
     public class PasswordFr5J : IPassword
     {

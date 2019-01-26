@@ -88,9 +88,6 @@ namespace Diceware
 
         public override string ToString()
         {
-            var test = "essai";
-            test += " essai2";
-            var test2 = $"il est {DateTime.Now}";
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(_wordCount.ToString() + " Words : ");
             foreach (var word in words)
