@@ -128,6 +128,7 @@ namespace Diceware
 
             public void MakeRolls()
             {
+                _rolls.Clear();
                 int bytes_in_64 = 8;
                 byte[] randomNumber = new byte[bytes_in_64 * _diceCount];
                 using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider()) {
