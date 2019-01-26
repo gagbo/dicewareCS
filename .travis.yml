@@ -1,8 +1,9 @@
 language: csharp
-solution: DicewareApp.sln
-install:
-  - nuget restore DicewareApp.sln
-  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
+mono: none
+sudo: required
+dist: xenial
+dotnet: 2.2
 script:
-  - msbuild /p:Configuration=Release DicewareApp.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./Diceware.Tests/bin/Release/Diceware.Tests.dll
+    - dotnet restore
+    - dotnet build
+    - dotnet test Diceware.Tests/Diceware.Tests.csproj
