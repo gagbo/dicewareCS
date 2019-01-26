@@ -25,25 +25,21 @@ namespace Diceware.Passwords
                 return _wordsList;
             }
         }
+
         public string Passphrase {
             get {
-                MakeRolls();
-                List<string> individualWords = new List<string>();
-                int wordIndex = 1;
-                foreach(var roll in RawRolls.WordRolls) {
-                    string tempWord = FetchWord(roll);
-                    string word;
-                    if (RawRolls.Salt[0] == wordIndex) {
-                        word = SaltWord(tempWord, RawRolls.Salt[1], GetSaltChar(RawRolls.Salt[2], RawRolls.Salt[3]));
-                    } else {
-                        word = tempWord;
-                    }
-                    individualWords.Add(word);
-                    wordIndex += 1;
-                }
+                List<string> individualWords = GetNewWords();
                 return string.Join(" ", individualWords);
+                    }
+                }
+
+        public string PassphraseWithoutSpaces {
+            get {
+                List<string> individualWords = GetNewWords();
+                return string.Join("0", individualWords);
             }
         }
+
         private static Dictionary<int, string> _wordsList = new Dictionary<int, string>();
         private static string _dictFilename = "data/diceware-fr-5-jets.txt";
         private static char[,] _saltSymbolTable = new char[6, 6] {{'~', '!', '#', '$', '%', '^'},
@@ -80,6 +76,25 @@ namespace Diceware.Passwords
             }
             Console.WriteLine("Diceware FR 5 Jets : " + _wordsList.Count.ToString() + " words added.");
         }
+
+        private List<string> GetNewWords() {
+                MakeRolls();
+                List<string> individualWords = new List<string>();
+                int wordIndex = 1;
+                foreach(var roll in RawRolls.WordRolls) {
+                    string tempWord = FetchWord(roll);
+                    string word;
+                    if (RawRolls.Salt[0] == wordIndex) {
+                        word = SaltWord(tempWord, RawRolls.Salt[1], GetSaltChar(RawRolls.Salt[2], RawRolls.Salt[3]));
+                    } else {
+                        word = tempWord;
+                    }
+                    individualWords.Add(word);
+                    wordIndex += 1;
+                }
+                return individualWords;
+        }
+
 
         public void MakeRolls()
         {
